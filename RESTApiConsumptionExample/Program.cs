@@ -6,10 +6,9 @@ namespace RESTApiConsumptionExample
     {
         static void Main(string[] args)
         {
-            var gitHubClientHandler = new GitHubApiHandler();
-
             Console.WriteLine("HttpClient");
-            var httpClientResponse = gitHubClientHandler.GetListOfUserReposByHttpClient("mwalczynski").Result;
+            var gitHubHttpClient = new GitHubHttpClient();
+            var httpClientResponse = gitHubHttpClient.GetListOfUserRepos("mwalczynski").Result;
             if (httpClientResponse != null)
             {
                 foreach (var repo in httpClientResponse)
@@ -17,15 +16,15 @@ namespace RESTApiConsumptionExample
                     Console.WriteLine($"Name: {repo.Name}, Link: {repo.Url}");
                 }
             }
+            gitHubHttpClient.Dispose();
 
             Console.WriteLine("RestSharp");
-            var restSharpResponse = gitHubClientHandler.GetListOfUserReposByRestSharp("mwalczynski");
+            var gitHubRestSharp = new GitHubRestSharp();   
+            var restSharpResponse = gitHubRestSharp.GetListOfUserRepos("mwalczynski");
             foreach (var repo in restSharpResponse)
             {
                 Console.WriteLine($"Name: {repo.Name}, Link: {repo.Url}");
             }
-
-            gitHubClientHandler.Dispose();
 
             Console.ReadKey();
         }
