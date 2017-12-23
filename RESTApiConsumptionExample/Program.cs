@@ -7,24 +7,29 @@ namespace RESTApiConsumptionExample
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("HttpClient");
-            var gitHubHttpClient = new GitHubHttpClient();
-            var httpClientResponse = gitHubHttpClient.GetListOfUserRepos("mwalczynski").Result;
-            foreach (var repo in httpClientResponse)
+            Task.Run(async () =>
             {
-                Console.WriteLine($"Name: {repo.Name}, Link: {repo.Url}");
-            }
-            gitHubHttpClient.Dispose();
 
-            Console.WriteLine("RestSharp");
-            var gitHubRestSharp = new GitHubRestSharp();
-            var restSharpResponse = gitHubRestSharp.GetListOfUserRepos("mwalczynski").Result;
-            foreach (var repo in restSharpResponse)
-            {
-                Console.WriteLine($"Name: {repo.Name}, Link: {repo.Url}");
-            }
+                Console.WriteLine("HttpClient");
+                var gitHubHttpClient = new GitHubHttpClient();
+                var httpClientResponse = await gitHubHttpClient.GetListOfUserRepos("mwalczynski");
+                foreach (var repo in httpClientResponse)
+                {
+                    Console.WriteLine($"Name: {repo.Name}, Link: {repo.Url}");
+                }
+                gitHubHttpClient.Dispose();
 
-            Console.ReadKey();
+                Console.WriteLine("RestSharp");
+                var gitHubRestSharp = new GitHubRestSharp();
+                var restSharpResponse = await gitHubRestSharp.GetListOfUserRepos("mwalczynski");
+                foreach (var repo in restSharpResponse)
+                {
+                    Console.WriteLine($"Name: {repo.Name}, Link: {repo.Url}");
+                }
+
+                Console.ReadKey();
+
+            }).GetAwaiter().GetResult();
         }
     }
 }
