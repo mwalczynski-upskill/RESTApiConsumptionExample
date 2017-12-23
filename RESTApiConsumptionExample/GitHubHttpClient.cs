@@ -30,7 +30,7 @@ namespace RESTApiConsumptionExample
                 return listOfRepos;
             }
 
-            return null;
+            return new List<GitHubRepoSimplifiedModel>();
         }
 
         public void Dispose()
