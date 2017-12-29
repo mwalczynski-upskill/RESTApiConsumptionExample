@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using RESTApiConsumptionExample.Implementations;
 
 namespace RESTApiConsumptionExample
 {
@@ -7,22 +8,21 @@ namespace RESTApiConsumptionExample
     {
         static async Task Main(string[] args)
         {
-            Console.WriteLine("Waiting for response...");
-
+            var userName = "mwalczynski";
             var gitHubHttpClient = new GitHubHttpClient();       
-            var httpClientResponse = await gitHubHttpClient.GetListOfUserRepos("mwalczynski");
-            var gitHubRestSharp = new GitHubRestSharp();
-            var restSharpResponse = await gitHubRestSharp.GetListOfUserRepos("mwalczynski");
+            var httpClientResponse = gitHubHttpClient.GetUserReposAsync(userName);
+            var gitHubRestSharp = new GitHubRestSharpClient();
+            var restSharpResponse = gitHubRestSharp.GetUserReposAsync(userName);
 
             Console.WriteLine("HttpClient");
-            foreach (var repo in httpClientResponse)
+            foreach (var repo in await httpClientResponse)
             {
                 Console.WriteLine($"Name: {repo.Name}, Link: {repo.Url}");
             }
             gitHubHttpClient.Dispose();
 
             Console.WriteLine("RestSharp");      
-            foreach (var repo in restSharpResponse)
+            foreach (var repo in await restSharpResponse)
             {
                 Console.WriteLine($"Name: {repo.Name}, Link: {repo.Url}");
             }

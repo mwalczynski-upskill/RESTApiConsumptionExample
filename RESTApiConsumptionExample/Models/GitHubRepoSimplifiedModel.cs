@@ -1,4 +1,4 @@
-﻿namespace RESTApiConsumptionExample
+﻿namespace RESTApiConsumptionExample.Models
 {
     public class GitHubRepoSimplifiedModel
     {
