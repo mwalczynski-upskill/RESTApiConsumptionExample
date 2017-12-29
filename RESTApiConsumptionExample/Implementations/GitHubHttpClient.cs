@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
@@ -18,7 +19,7 @@ namespace RESTApiConsumptionExample.Implementations
             _httpClient.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.84 Safari/537.36");
         }
 
-        public async Task<ICollection<GitHubRepoSimplifiedModel>> GetUserReposAsync(string userName)
+        public async Task<IEnumerable<GitHubRepoSimplifiedModel>> GetUserReposAsync(string userName)
         {
             var url = $"https://api.github.com/users/{userName}/repos";
             var response = await _httpClient.GetAsync(url);
@@ -30,7 +31,7 @@ namespace RESTApiConsumptionExample.Implementations
                 return listOfRepos;
             }
 
-            return new List<GitHubRepoSimplifiedModel>();
+            return Enumerable.Empty<GitHubRepoSimplifiedModel>();
         }
 
         public void Dispose()
